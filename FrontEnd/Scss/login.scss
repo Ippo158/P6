@@ -1,0 +1,139 @@
+$lightyellow : #FFFEF8;
+$brown : #B1663C;
+$lightbrown : #93532F;
+$white : #ffffff;
+$green : #1D6154;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $lightyellow;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 150px;
+
+    &__title {
+        color: $brown;
+        display: flex;
+        flex-direction: column;
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+    }
+
+    &__subtitle {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+    }
+
+    &__links {
+        display: flex;
+        align-items: center;
+        list-style-type: none;
+
+        & li {
+            padding: 0 10px;
+            font-size: 16px;
+            font-family: 'Work Sans', sans-serif;
+
+            & img {
+                width: 19.36px;
+                height: 19.36px;
+            }
+        }
+    }
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__logo {
+        color: $green;
+        font-family: 'Syne', sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 36px;
+    }
+
+    &__form {
+        width: 379px;
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+
+        & label {
+            font-family: 'Work Sans', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16px;
+            margin-bottom: 7px;
+            margin-top: 35px;
+        }
+    }
+
+    &__input {
+        border: none;
+        height: 51px;
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    }
+
+    &__connexion {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__button {
+        margin-top: 37px;
+        background: $green;
+        color: $white;
+        width: 179px;
+        height: 36px;
+        border-radius: 60px;
+        border: none;
+        font-family: 'Syne', sans-serif;
+    }
+
+    &__forgot {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration-line: underline;
+        margin-top: 28px;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    background-color: $white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    & li {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 16px;
+        margin-right: 107px;
+        list-style-type: none;
+    }
+}

@@ -58,6 +58,16 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+a {
+	text-decoration: none;
+	outline: none;
+	color: black;
+}
+
+a:hover {
+	color: #B1663C;
+}
 section {
 	margin: 50px 0
 }
@@ -137,6 +147,35 @@ li:hover {
 	width: 100%;
 
 }
+.category-buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 51px;
+}
+
+.category-button {
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	font-family: "Syne", sans-serif;
+	color: #1D6154;
+	background-color: white;
+	height: 37px;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+}
+
+.category-button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
 #contact {
 	width: 50%;
 margin: auto;

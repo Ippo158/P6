@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #FFFEF8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 150px;
+}
+.header__title {
+  color: #B1663C;
+  display: flex;
+  flex-direction: column;
+  font-family: "Syne", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+}
+.header__subtitle {
+  font-family: "Work Sans", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.header__links {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+}
+.header__links li {
+  padding: 0 10px;
+  font-size: 16px;
+  font-family: "Work Sans", sans-serif;
+}
+.header__links li img {
+  width: 19.36px;
+  height: 19.36px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login__logo {
+  color: #1D6154;
+  font-family: "Syne", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 36px;
+}
+.login__form {
+  width: 379px;
+}
+.login__label {
+  display: flex;
+  flex-direction: column;
+}
+.login__label label {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 7px;
+  margin-top: 35px;
+}
+.login__input {
+  border: none;
+  height: 51px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.login__connexion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login__button {
+  margin-top: 37px;
+  background: #1D6154;
+  color: #ffffff;
+  width: 179px;
+  height: 36px;
+  border-radius: 60px;
+  border: none;
+  font-family: "Syne", sans-serif;
+}
+.login__forgot {
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration-line: underline;
+  margin-top: 28px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+footer li {
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  margin-right: 107px;
+  list-style-type: none;
+}

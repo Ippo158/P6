@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <title>Sophie Bluel - Architecte d'intérieur</title>
+    <link rel="stylesheet" href="../css/login.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">
+        Sophie Bluel
+        <span class="header__subtitle">Architecte d'intérieur</span>
+      </h1>
+      <nav>
+        <ul class="header__links">
+          <li>projets</li>
+          <li>contact</li>
+          <li><strong>login</strong></li>
+          <li>
+            <img src="/FrontEnd/assets/icons/instagram.png" alt="Instagram" />
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="login">
+        <h1 class="login__logo">Log In</h1>
+        <form class="login__form" id="loginForm">
+          <div class="login__label">
+            <label for="email">E-mail</label>
+            <input
+              class="login__input"
+              type="email"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+          <div class="login__label">
+            <label for="password">Mot de passe</label>
+            <input
+              class="login__input"
+              type="password"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+          <div class="login__connexion">
+            <button class="login__button" type="submit">Se connecter</button>
+            <p class="login__forgot">Mot de passe oublié</p>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <nav>
+        <ul>
+          <li>Mentions Légales</li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>
