@@ -49,6 +49,21 @@ function createCategoryButton(text) {
   const categoryButton = document.createElement("button");
   categoryButton.textContent = text;
   categoryButton.classList.add("category-button");
+  categoryButton.addEventListener("click", () => {
+    console.log(text);
+    fetch("http://localhost:5678/api/works")
+    .then((response) => response.json())
+    .then((data) => {
+      let worksToReturn;
+      if (text === "Tous") {
+        worksToReturn = data 
+      }
+      // console.log(data);
+      else {worksToReturn = data.filter(work => work.category.name == text )}
+      console.log(worksToReturn);
+       }   )
+
+  })
   return categoryButton;
 }
 
