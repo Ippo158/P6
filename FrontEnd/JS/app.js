@@ -1,5 +1,7 @@
 const gallery = document.querySelector(".gallery");
 const portfolioSection = document.getElementById("portfolio");
+const categoryContainer = document.createElement("div");
+categoryContainer.classList.add("category-buttons");
 
 function displayWorks() {
   fetch("http://localhost:5678/api/works")
@@ -18,11 +20,12 @@ function displayWorks() {
         workCaption.innerHTML = item.title;
         work.appendChild(workCaption);
 
+        work.setAttribute("data-category", item.category.name);
+
         gallery.appendChild(work);
       });
     });
 }
-displayWorks();
 
 function displayCategories() {
   fetch("http://localhost:5678/api/categories")
@@ -30,10 +33,8 @@ function displayCategories() {
     .then((data) => {
       console.log(data);
 
-      const categoryContainer = document.createElement("div");
-      categoryContainer.classList.add("category-buttons");
-
       const allButton = createCategoryButton("Tous");
+      allButton.classList.add("active");
       categoryContainer.appendChild(allButton);
 
       data.forEach((category) => {
@@ -50,21 +51,25 @@ function createCategoryButton(text) {
   categoryButton.textContent = text;
   categoryButton.classList.add("category-button");
   categoryButton.addEventListener("click", () => {
-    console.log(text);
-    fetch("http://localhost:5678/api/works")
-    .then((response) => response.json())
-    .then((data) => {
-      let worksToReturn;
-      if (text === "Tous") {
-        worksToReturn = data 
-      }
-      // console.log(data);
-      else {worksToReturn = data.filter(work => work.category.name == text )}
-      console.log(worksToReturn);
-       }   )
+    const works = document.querySelectorAll(".gallery figure");
 
-  })
+    const activeButtons = document.querySelectorAll(".category-button.active");
+    activeButtons.forEach((button) => button.classList.remove("active"));
+
+    categoryButton.classList.add("active");
+    works.forEach((work) => {
+      const category = work.getAttribute("data-category");
+
+      if (text === "Tous" || text === category) {
+        work.style.display = "block";
+      } else {
+        work.style.display = "none";
+      }
+    });
+  });
+
   return categoryButton;
 }
 
+displayWorks();
 displayCategories();
