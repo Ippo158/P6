@@ -3,6 +3,7 @@ const portfolioSection = document.getElementById("portfolio");
 const categoryContainer = document.createElement("div");
 const header = document.querySelector("header");
 
+//Affichage des projets
 function displayWorks() {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
@@ -27,6 +28,7 @@ function displayWorks() {
     });
 }
 
+//Affichage des catégories
 function displayCategories() {
   fetch("http://localhost:5678/api/categories")
     .then((response) => response.json())
@@ -46,6 +48,7 @@ function displayCategories() {
     });
 }
 
+//Filtrer les catégories
 function createCategoryButton(text) {
   const categoryButton = document.createElement("button");
   categoryButton.textContent = text;
@@ -100,8 +103,23 @@ function checkToken() {
     header.parentNode.insertBefore(editBar, header);
 
     //Création bouton MODIFIER
-    
+    const editIconText = document.createElement("div");
+    editIconText.classList.add("edit-button");
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("fa-solid", "fa-pen-to-square");
+    const editText = document.createElement("span");
+    editText.classList.add("edit-text");
+    editText.textContent = "Modifier";
 
+    //Affichage des élements MODIFIER
+    editIconText.appendChild(editIcon);
+    editIconText.appendChild(editText);
+
+    //Affichage de la div MODIFIER
+    const titleModifier = document.querySelector(".title-modifier");
+
+    // Insertion du bouton "Modifier" après la balise h2 "Mes projets"
+    titleModifier.appendChild(editIconText);
   } else {
     console.log("Utilisateur non authentifié");
   }

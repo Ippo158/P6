@@ -90,6 +90,7 @@ body {
   border-radius: 60px;
   border: none;
   font-family: "Syne", sans-serif;
+  cursor: pointer;
 }
 .login__forgot {
   font-family: "Work Sans", sans-serif;
