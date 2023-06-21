@@ -140,6 +140,31 @@ header {
   margin: 50px 0;
 }
 
+.edit-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 59px;
+  width: 100%;
+  background-color: black;
+  gap: 15px;
+  color: white;
+}
+
+.edit-bar button {
+  background-color: white;
+  color: black;
+  border-radius: 60px;
+  width: 216px;
+  height: 38px;
+  font-family: "Work Sans";
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
   outline: none;

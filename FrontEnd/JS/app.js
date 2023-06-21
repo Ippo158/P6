@@ -1,7 +1,7 @@
 const gallery = document.querySelector(".gallery");
 const portfolioSection = document.getElementById("portfolio");
 const categoryContainer = document.createElement("div");
-categoryContainer.classList.add("category-buttons");
+const header = document.querySelector("header");
 
 function displayWorks() {
   fetch("http://localhost:5678/api/works")
@@ -49,6 +49,7 @@ function displayCategories() {
 function createCategoryButton(text) {
   const categoryButton = document.createElement("button");
   categoryButton.textContent = text;
+  categoryContainer.classList.add("category-buttons");
   categoryButton.classList.add("category-button");
   categoryButton.addEventListener("click", () => {
     const works = document.querySelectorAll(".gallery figure");
@@ -71,5 +72,49 @@ function createCategoryButton(text) {
   return categoryButton;
 }
 
+function checkToken() {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    console.log("Utilisateur authentifié");
+    const loginStatus = document.getElementById("login");
+    loginStatus.innerHTML = "logout";
+
+    //Création EDITBAR
+    const editBar = document.createElement("div");
+    editBar.classList.add("edit-bar");
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid", "fa-pen-to-square");
+    const text = document.createElement("span");
+    text.textContent = "Mode édition";
+    const button = document.createElement("button");
+    button.textContent = "Publier les changements";
+    button.classList.add("btn", "btn-primary");
+
+    // Ajouter les éléments à la barre d'édition
+    editBar.appendChild(icon);
+    editBar.appendChild(text);
+    editBar.appendChild(button);
+
+    // Affichage de la barre EDIT
+    header.parentNode.insertBefore(editBar, header);
+
+    //Création bouton MODIFIER
+    
+
+  } else {
+    console.log("Utilisateur non authentifié");
+  }
+}
+
+//FONCTION POUR SUPPRIMER LE TOKEN POUR TESTS
+function removeToken() {
+  localStorage.removeItem("token");
+  console.log("Token supprimé");
+}
+
 displayWorks();
 displayCategories();
+checkToken();
+
+// removeToken();
