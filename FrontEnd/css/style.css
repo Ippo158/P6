@@ -236,6 +236,97 @@ li:hover {
   margin-bottom: 0.5em;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0000004d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-wrapper {
+  position: relative;
+  width: 630px;
+  height: 731px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.modal-wrapper h1 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 30.5px;
+  color: #000000;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.modal-wrapper i {
+  position: absolute;
+  top: 38px;
+  right: 42px;
+  cursor: pointer;
+  
+}
+
+.modal-images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 70px;
+}
+
+.modal-wrapper img {
+  width: 20%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.modal-wrapper hr {
+  margin-bottom: 35px;
+  margin-top: 65px;
+  width: 420px;
+  background: #B3B3B3;
+}
+
+.modal-button-add {
+  width: 237px;
+  height: 36px;
+  border-radius: 60px;
+  border: none;
+  color: white;
+  background-color: #1d6154;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16.8px;
+  margin-bottom: 23px;
+  cursor: pointer;
+}
+
+.modal-delete-gallery {
+  width: 230px;
+  height: 17px;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.8px;
+  color: #d65353;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 .title-modifier {
   display: flex;
   justify-content: center;
@@ -252,7 +343,6 @@ li:hover {
 
 #portfolio h2 {
   text-align: center;
-  
 }
 .gallery {
   width: 100%;

@@ -120,6 +120,7 @@ function checkToken() {
 
     // Insertion du bouton "Modifier" après la balise h2 "Mes projets"
     titleModifier.appendChild(editIconText);
+    
   } else {
     console.log("Utilisateur non authentifié");
   }
