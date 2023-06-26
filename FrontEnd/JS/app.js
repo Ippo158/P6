@@ -11,6 +11,7 @@ const titleModifier = document.querySelector(".title-modifier");
 const imageModifier = document.querySelector("figcaption");
 const modal = document.querySelector(".modal");
 const loginStatus = document.getElementById("login");
+const token = localStorage.getItem("token");
 
 //Affichage des projets
 function displayWorks() {
@@ -84,9 +85,7 @@ function createCategoryButton(text) {
   return categoryButton;
 }
 
-function checkToken() {
-  const token = localStorage.getItem("token");
-
+function displayEdit() {
   if (token) {
     console.log("Utilisateur authentifié");
     loginStatus.innerHTML = "logout";
@@ -136,7 +135,7 @@ function createEditButton(text) {
 }
 
 //Affichage de la modale
-function attachEditButtonListeners() {
+function displayModal() {
   const editButtons = document.querySelectorAll(".edit-button");
 
   editButtons.forEach((editButton) => {
@@ -147,7 +146,7 @@ function attachEditButtonListeners() {
 }
 
 //Fermeture de la modale
-function attachCloseModalListener() {
+function closeModal() {
   const closeModalButton = document.querySelector(".close-button");
 
   //Au clic sur la croix
@@ -170,15 +169,21 @@ function attachCloseModalListener() {
   });
 }
 
-//FONCTION POUR SUPPRIMER LE TOKEN POUR TESTS
-function removeToken() {
-  localStorage.removeItem("token");
-  console.log("Token supprimé");
+//Déconnexion par lien logout
+function logoutRefresh() {
+  loginStatus.addEventListener("click", (event) => {
+    if (token) {
+      event.preventDefault();
+      localStorage.removeItem("token");
+      console.log("Token supprimé");
+      location.reload();
+    }
+  });
 }
 
 displayWorks();
 displayCategories();
-checkToken();
-attachEditButtonListeners();
-attachCloseModalListener();
-// removeToken();
+displayEdit();
+displayModal();
+closeModal();
+logoutRefresh();
