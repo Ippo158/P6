@@ -102,29 +102,38 @@ function checkToken() {
     // Affichage de la barre EDIT
     header.parentNode.insertBefore(editBar, header);
 
-    //Création bouton MODIFIER
-    const editIconText = document.createElement("div");
-    editIconText.classList.add("edit-button");
-    const editIcon = document.createElement("i");
-    editIcon.classList.add("fa-solid", "fa-pen-to-square");
-    const editText = document.createElement("span");
-    editText.classList.add("edit-text");
-    editText.textContent = "Modifier";
-
-    //Affichage des élements MODIFIER
-    editIconText.appendChild(editIcon);
-    editIconText.appendChild(editText);
-
-    //Affichage de la div MODIFIER
-    const titleModifier = document.querySelector(".title-modifier");
-
-    // Insertion du bouton "Modifier" après la balise h2 "Mes projets"
-    titleModifier.appendChild(editIconText);
-    
+    //Affichage des boutons MODIFIER
+    titleModifier.appendChild(editIconTextTitle);
+    imageModifier.appendChild(editIconTextImage);
   } else {
     console.log("Utilisateur non authentifié");
   }
 }
+
+function createEditButton(text) {
+  const editIconText = document.createElement("div");
+  editIconText.classList.add("edit-button");
+  const editIcon = document.createElement("i");
+  editIcon.classList.add("fa-solid", "fa-pen-to-square");
+  const editText = document.createElement("span");
+  editText.classList.add("edit-text");
+  editText.textContent = text;
+
+  editIconText.appendChild(editIcon);
+  editIconText.appendChild(editText);
+
+  return editIconText;
+}
+
+// Création du bouton "Modifier" pour titleModifier
+const editIconTextTitle = createEditButton("Modifier");
+
+// Création du bouton "Modifier" pour imageModifier
+const editIconTextImage = createEditButton("Modifier");
+
+// Affichage des boutons "Modifier"
+const titleModifier = document.querySelector(".title-modifier");
+const imageModifier = document.querySelector("figcaption");
 
 //FONCTION POUR SUPPRIMER LE TOKEN POUR TESTS
 function removeToken() {
