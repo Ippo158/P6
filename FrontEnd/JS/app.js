@@ -2,6 +2,15 @@ const gallery = document.querySelector(".gallery");
 const portfolioSection = document.getElementById("portfolio");
 const categoryContainer = document.createElement("div");
 const header = document.querySelector("header");
+// Création du bouton "Modifier" pour titleModifier
+const editIconTextTitle = createEditButton("Modifier");
+// Création du bouton "Modifier" pour imageModifier
+const editIconTextImage = createEditButton("Modifier");
+// Affichage des boutons "Modifier"
+const titleModifier = document.querySelector(".title-modifier");
+const imageModifier = document.querySelector("figcaption");
+const modal = document.querySelector(".modal");
+const loginStatus = document.getElementById("login");
 
 //Affichage des projets
 function displayWorks() {
@@ -80,7 +89,6 @@ function checkToken() {
 
   if (token) {
     console.log("Utilisateur authentifié");
-    const loginStatus = document.getElementById("login");
     loginStatus.innerHTML = "logout";
 
     //Création EDITBAR
@@ -113,8 +121,10 @@ function checkToken() {
 function createEditButton(text) {
   const editIconText = document.createElement("div");
   editIconText.classList.add("edit-button");
+
   const editIcon = document.createElement("i");
   editIcon.classList.add("fa-solid", "fa-pen-to-square");
+
   const editText = document.createElement("span");
   editText.classList.add("edit-text");
   editText.textContent = text;
@@ -125,15 +135,40 @@ function createEditButton(text) {
   return editIconText;
 }
 
-// Création du bouton "Modifier" pour titleModifier
-const editIconTextTitle = createEditButton("Modifier");
+//Affichage de la modale
+function attachEditButtonListeners() {
+  const editButtons = document.querySelectorAll(".edit-button");
 
-// Création du bouton "Modifier" pour imageModifier
-const editIconTextImage = createEditButton("Modifier");
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener("click", () => {
+      modal.style.visibility = "visible";
+    });
+  });
+}
 
-// Affichage des boutons "Modifier"
-const titleModifier = document.querySelector(".title-modifier");
-const imageModifier = document.querySelector("figcaption");
+//Fermeture de la modale
+function attachCloseModalListener() {
+  const closeModalButton = document.querySelector(".close-button");
+
+  //Au clic sur la croix
+  closeModalButton.addEventListener("click", () => {
+    modal.style.visibility = "hidden";
+  });
+
+  //Au clic à l'extérieur de la modale
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.visibility = "hidden";
+    }
+  });
+
+  //Avec Echap
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      modal.style.visibility = "hidden";
+    }
+  });
+}
 
 //FONCTION POUR SUPPRIMER LE TOKEN POUR TESTS
 function removeToken() {
@@ -144,5 +179,6 @@ function removeToken() {
 displayWorks();
 displayCategories();
 checkToken();
-
+attachEditButtonListeners();
+attachCloseModalListener();
 // removeToken();
