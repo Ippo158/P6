@@ -1,4 +1,5 @@
 const gallery = document.querySelector(".gallery");
+const modalImages = document.querySelector(".modal-images");
 const portfolioSection = document.getElementById("portfolio");
 const categoryContainer = document.createElement("div");
 const header = document.querySelector("header");
@@ -32,6 +33,10 @@ function displayWorks() {
         work.appendChild(workCaption);
 
         work.setAttribute("data-category", item.category.name);
+
+        // Cloner le travail et l'ajouter à la div "modal-images"
+        const workClone = work.cloneNode(true);
+        modalImages.appendChild(workClone);
 
         gallery.appendChild(work);
       });
@@ -134,16 +139,48 @@ function createEditButton(text) {
   return editIconText;
 }
 
-//Affichage de la modale
+// Affichage de la modale
 function displayModal() {
   const editButtons = document.querySelectorAll(".edit-button");
 
   editButtons.forEach((editButton) => {
     editButton.addEventListener("click", () => {
       modal.style.visibility = "visible";
+
+      const modalFigcaptions = document.querySelectorAll(
+        ".modal-images figcaption"
+      );
+
+      modalFigcaptions.forEach((figcaption) => {
+        figcaption.textContent = "éditer";
+      });
     });
   });
 }
+
+// Affichage de la modale
+// function displayModal() {
+//   const editButtons = document.querySelectorAll(".edit-button");
+
+//   editButtons.forEach((editButton) => {
+//     editButton.addEventListener("click", () => {
+//       modal.style.visibility = "visible";
+
+//       const modalFigures = document.querySelectorAll(".modal-images figure");
+
+//       modalFigures.forEach((figure) => {
+//         const deleteIcon = document.createElement("i");
+//         deleteIcon.classList.add("fa-regular", "fa-trash-can");
+//         figure.appendChild(deleteIcon);
+
+//         const figcaption = document.createElement("figcaption");
+//         figcaption.textContent = "Éditer";
+//         figure.appendChild(figcaption);
+//       });
+//     });
+//   });
+// }
+
 
 //Fermeture de la modale
 function closeModal() {
