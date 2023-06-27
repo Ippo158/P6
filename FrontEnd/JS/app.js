@@ -139,13 +139,34 @@ function createEditButton(text) {
   return editIconText;
 }
 
-// Affichage de la modale
 function displayModal() {
   const editButtons = document.querySelectorAll(".edit-button");
 
   editButtons.forEach((editButton) => {
     editButton.addEventListener("click", () => {
       modal.style.visibility = "visible";
+
+      const modalFigures = document.querySelectorAll(".modal-images figure");
+
+      modalFigures.forEach((figure, index) => {
+        const existingTrashIcon = figure.querySelector(".fa-trash-can");
+
+        if (!existingTrashIcon) {
+          const trashIcon = document.createElement("i");
+          trashIcon.classList.add("fa-regular", "fa-trash-can");
+          figure.insertBefore(trashIcon, figure.firstChild);
+
+          // Ajouter l'icône des flèches dans la première figure
+          if (index === 0) {
+            const arrowsIcon = document.createElement("i");
+            arrowsIcon.classList.add(
+              "fa-solid",
+              "fa-arrows-up-down-left-right"
+            );
+            figure.insertBefore(arrowsIcon, figure.firstChild);
+          }
+        }
+      });
 
       const modalFigcaptions = document.querySelectorAll(
         ".modal-images figcaption"
@@ -157,30 +178,6 @@ function displayModal() {
     });
   });
 }
-
-// Affichage de la modale
-// function displayModal() {
-//   const editButtons = document.querySelectorAll(".edit-button");
-
-//   editButtons.forEach((editButton) => {
-//     editButton.addEventListener("click", () => {
-//       modal.style.visibility = "visible";
-
-//       const modalFigures = document.querySelectorAll(".modal-images figure");
-
-//       modalFigures.forEach((figure) => {
-//         const deleteIcon = document.createElement("i");
-//         deleteIcon.classList.add("fa-regular", "fa-trash-can");
-//         figure.appendChild(deleteIcon);
-
-//         const figcaption = document.createElement("figcaption");
-//         figcaption.textContent = "Éditer";
-//         figure.appendChild(figcaption);
-//       });
-//     });
-//   });
-// }
-
 
 //Fermeture de la modale
 function closeModal() {
