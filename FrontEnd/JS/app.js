@@ -186,12 +186,14 @@ function closeModal() {
   //Au clic sur la croix
   closeModalButton.addEventListener("click", () => {
     modal.style.visibility = "hidden";
+    location.reload();
   });
 
   //Au clic à l'extérieur de la modale
   modal.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.visibility = "hidden";
+      location.reload();
     }
   });
 
@@ -199,6 +201,7 @@ function closeModal() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       modal.style.visibility = "hidden";
+      location.reload();
     }
   });
 }
@@ -215,9 +218,38 @@ function logoutRefresh() {
   });
 }
 
+//Affichage de la modale pour AJOUTER une photo
+function modalAddImage() {
+  const modalButtonAdd = document.querySelector(".modal-button-add");
+  const modalTitle = document.querySelector(".modal-wrapper h1");
+  const modalWrapper = document.querySelector(".modal-wrapper");
+  const modalImages = document.querySelector(".modal-images");
+  const modalDeleteGallery = document.querySelector(".modal-delete-gallery");
+  const modalForm = document.querySelectorAll(".modal-form");
+  const modalAddImage = document.querySelector(".modal-add-image");
+  const modalArrowBack = document.querySelector(".fa-arrow-left-long");
+
+  modalButtonAdd.addEventListener("click", () => {
+    if (modalTitle.innerText === "Galerie photo") {
+      modalAddImage.style.display = "flex";
+      modalWrapper.style.height = "670px";
+      modalArrowBack.style.display = "flex";
+      modalTitle.innerText = "Ajout photo";
+      modalImages.style.display = "none";
+      modalButtonAdd.innerText = "Valider";
+      modalButtonAdd.style.backgroundColor = "#A7A7A7";
+      modalDeleteGallery.style.display = "none";
+      modalForm.forEach((modalForm) => {
+        modalForm.style.display = "flex";
+      });
+    }
+  });
+}
+
 displayWorks();
 displayCategories();
 displayEdit();
 displayModal();
 closeModal();
 logoutRefresh();
+modalAddImage();
