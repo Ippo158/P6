@@ -261,8 +261,20 @@ li:hover {
   border-radius: 10px;
 }
 
-.fa-arrow-left-long {
+.modal-wrapper-add {
   display: none;
+  position: relative;
+  width: 630px;
+  height: 670px;
+  background-color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.fa-arrow-left-long {
+  display: flex;
   position: absolute;
   top: 30px;
   left: 35px;
@@ -270,7 +282,7 @@ li:hover {
   cursor: pointer;
 }
 
-.modal-wrapper h1 {
+.modal-title {
   font-family: "Work Sans", sans-serif;
   font-size: 26px;
   font-weight: 400;
@@ -294,7 +306,7 @@ li:hover {
   box-sizing: border-box;
 }
 
-.modal-wrapper hr {
+.modal-hr {
   margin-bottom: 35px;
   margin-top: 47px;
   width: 420px;
@@ -347,7 +359,7 @@ li:hover {
 }
 
 .modal-add-image {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -384,7 +396,7 @@ li:hover {
 }
 
 .modal-form {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 10px;
   font-family: "Work Sans";
@@ -417,6 +429,10 @@ li:hover {
   line-height: 16.8px;
   margin-bottom: 23px;
   cursor: pointer;
+}
+
+.btn-before-validate {
+  background-color: #a7a7a7;
 }
 
 .modal-delete-gallery {
