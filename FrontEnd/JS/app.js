@@ -13,6 +13,8 @@ const imageModifier = document.querySelector("figcaption");
 const modal = document.querySelector(".modal");
 const loginStatus = document.getElementById("login");
 const token = localStorage.getItem("token");
+const modalWrapper = document.querySelector(".modal-wrapper");
+const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
 
 //Affichage des projets
 function displayWorks() {
@@ -37,7 +39,6 @@ function displayWorks() {
         // Cloner le travail et l'ajouter à la div "modal-images"
         const workClone = work.cloneNode(true);
         modalImages.appendChild(workClone);
-
         gallery.appendChild(work);
       });
     });
@@ -86,7 +87,6 @@ function createCategoryButton(text) {
       }
     });
   });
-
   return categoryButton;
 }
 
@@ -179,6 +179,16 @@ function displayModal() {
   });
 }
 
+//Reset modale
+function resetModal() {
+  const arrowBack = document.querySelector(".fa-arrow-left-long");
+
+  arrowBack.addEventListener("click", () => {
+    modalWrapper.style.display = "flex";
+    modalWrapperAdd.style.display = "none";
+  });
+}
+
 //Fermeture de la modale
 function closeModal() {
   const closeModalButton = document.querySelectorAll(".close-button");
@@ -187,6 +197,8 @@ function closeModal() {
   closeModalButton.forEach((closeButton) => {
     closeButton.addEventListener("click", () => {
       modal.style.visibility = "hidden";
+      modalWrapper.style.display = "flex";
+      modalWrapperAdd.style.display = "none";
     });
   });
 
@@ -194,7 +206,8 @@ function closeModal() {
   modal.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.visibility = "hidden";
-      // location.reload();
+      modalWrapper.style.display = "flex";
+      modalWrapperAdd.style.display = "none";
     }
   });
 
@@ -202,7 +215,8 @@ function closeModal() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       modal.style.visibility = "hidden";
-      // location.reload();
+      modalWrapper.style.display = "flex";
+      modalWrapperAdd.style.display = "none";
     }
   });
 }
@@ -221,14 +235,11 @@ function logoutRefresh() {
 
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
-  const modalWrapper = document.querySelector(".modal-wrapper");
   const modalButtonAdd = document.querySelector(".modal-button-add");
-  const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
 
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
-    modalButtonAdd.style.backgroundColor = "#A7A7A7";
   });
 }
 
@@ -239,3 +250,4 @@ displayModal();
 closeModal();
 logoutRefresh();
 modalAddImage();
+resetModal();

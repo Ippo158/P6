@@ -431,8 +431,8 @@ li:hover {
   cursor: pointer;
 }
 
-.btn-before-validate {
-  background-color: #a7a7a7;
+.gray-btn { 
+background-color: #a7a7a7; 
 }
 
 .modal-delete-gallery {
