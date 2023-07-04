@@ -273,6 +273,12 @@ li:hover {
   border-radius: 10px;
 }
 
+.preview-image {
+  display: none;
+  height: 169px;
+  object-fit: contain;
+}
+
 .fa-arrow-left-long {
   display: flex;
   position: absolute;
@@ -370,9 +376,10 @@ li:hover {
   margin-bottom: 10px;
 }
 
-.modal-add-image img {
+.modal-add-logo {
   height: 58px;
   width: 58px;
+  object-fit: cover;
 }
 
 .btn-add {

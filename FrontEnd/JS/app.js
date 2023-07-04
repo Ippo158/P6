@@ -15,6 +15,10 @@ const loginStatus = document.getElementById("login");
 const token = localStorage.getItem("token");
 const modalWrapper = document.querySelector(".modal-wrapper");
 const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
+const btnAddLimit = document.querySelector(".btn-add-limit");
+const btnAdd = document.querySelector(".btn-add");
+const previewImage = document.querySelector(".preview-image");
+const modalAddLogo = document.querySelector(".modal-add-logo");
 
 //Affichage des projets
 function displayWorks() {
@@ -74,9 +78,10 @@ function createCategoryButton(text) {
     const works = document.querySelectorAll(".gallery figure");
 
     const activeButtons = document.querySelectorAll(".category-button.active");
-    activeButtons.forEach((button) => button.classList.remove("active"));
+    activeButtons.forEach((button) => button.classList.toggle("active"));
 
-    categoryButton.classList.add("active");
+    categoryButton.classList.toggle("active");
+
     works.forEach((work) => {
       const category = work.getAttribute("data-category");
 
@@ -186,6 +191,7 @@ function resetModal() {
   arrowBack.addEventListener("click", () => {
     modalWrapper.style.display = "flex";
     modalWrapperAdd.style.display = "none";
+    resetSelectedFile();
   });
 }
 
@@ -199,6 +205,7 @@ function closeModal() {
       modal.style.visibility = "hidden";
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
+      resetSelectedFile();
     });
   });
 
@@ -208,6 +215,7 @@ function closeModal() {
       modal.style.visibility = "hidden";
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
+      resetSelectedFile();
     }
   });
 
@@ -217,6 +225,7 @@ function closeModal() {
       modal.style.visibility = "hidden";
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
+      resetSelectedFile();
     }
   });
 }
@@ -236,18 +245,67 @@ function logoutRefresh() {
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
   const modalButtonAdd = document.querySelector(".modal-button-add");
+  const previewImage = document.querySelector(".preview-image");
 
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
   });
+
+  btnAdd.addEventListener("click", () => {
+    // Ouvrir la fenêtre de sélection de fichier
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+
+    fileInput.addEventListener("change", (event) => {
+      const selectedFile = event.target.files[0];
+      console.log("Image sélectionnée :", selectedFile);
+
+      // Afficher la prévisualisation de l'image
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewImage.src = reader.result;
+        previewImage.style.display = "flex";
+        modalAddLogo.style.display = "none";
+        btnAdd.style.display = "none";
+        btnAddLimit.style.display = "none";
+      };
+      reader.readAsDataURL(selectedFile);
+    });
+    fileInput.click();
+  });
+}
+
+//Reset fichier img
+function resetSelectedFile() {
+  const fileInput = document.querySelector("input[type='file']");
+  if (fileInput) {
+    fileInput.value = null;
+  }
+  if (previewImage) {
+    previewImage.src = "";
+    previewImage.style.display = "none";
+  }
+  if (modalAddLogo && btnAdd && btnAddLimit) {
+    modalAddLogo.style.display = "block";
+    btnAdd.style.display = "block";
+    btnAddLimit.style.display = "block";
+  }
 }
 
 displayWorks();
 displayCategories();
 displayEdit();
 displayModal();
-closeModal();
 logoutRefresh();
 modalAddImage();
+closeModal();
 resetModal();
+
+window.addEventListener("popstate", () => {
+  modal.style.visibility = "hidden";
+  modalWrapper.style.display = "flex";
+  modalWrapperAdd.style.display = "none";
+  resetSelectedFile(); // Appel de la fonction resetSelectedFile()
+});
