@@ -17,8 +17,9 @@ const modalWrapper = document.querySelector(".modal-wrapper");
 const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
 const btnAddLimit = document.querySelector(".btn-add-limit");
 const btnAdd = document.querySelector(".btn-add");
-const previewImage = document.querySelector(".preview-image");
+// const previewImage = document.querySelector(".preview-image");
 const modalAddLogo = document.querySelector(".modal-add-logo");
+const modalButtonAdd = document.querySelector(".modal-button-add");
 
 //Affichage des projets
 function displayWorks() {
@@ -244,41 +245,44 @@ function logoutRefresh() {
 
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
-  const modalButtonAdd = document.querySelector(".modal-button-add");
-  const previewImage = document.querySelector(".preview-image");
+//   const previewImage = document.querySelector(".preview-image");
 
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
   });
 
-  btnAdd.addEventListener("click", () => {
-    // Ouvrir la fenêtre de sélection de fichier
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = "image/*";
+//   btnAdd.addEventListener("click", () => {
+//     // Ouvrir la fenêtre de sélection de fichier
+//     const fileInput = document.createElement("input");
+//     fileInput.type = "file";
+//     fileInput.accept = "image/*";
+//     fileInput.id = "image";
 
-    fileInput.addEventListener("change", (event) => {
-      const selectedFile = event.target.files[0];
-      console.log("Image sélectionnée :", selectedFile);
+//     fileInput.addEventListener("change", (event) => {
+//       const selectedFile = event.target.files[0];
+//       // console.log("Image sélectionnée :", selectedFile);
 
-      // Afficher la prévisualisation de l'image
-      const reader = new FileReader();
-      reader.onload = () => {
-        previewImage.src = reader.result;
-        previewImage.style.display = "flex";
-        modalAddLogo.style.display = "none";
-        btnAdd.style.display = "none";
-        btnAddLimit.style.display = "none";
-      };
-      reader.readAsDataURL(selectedFile);
-    });
-    fileInput.click();
-  });
+//       // Afficher la prévisualisation de l'image
+//       const reader = new FileReader();
+//       reader.onload = () => {
+//         previewImage.src = reader.result;
+//         previewImage.style.display = "flex";
+//         modalAddLogo.style.display = "none";
+//         btnAdd.style.display = "none";
+//         btnAddLimit.style.display = "none";
+//       };
+//       reader.readAsDataURL(selectedFile);
+//     });
+
+//     fileInput.click();
+//   });
 }
 
 //Reset fichier img
 function resetSelectedFile() {
+  
+  const previewImage = document.querySelector(".preview-image");
   const fileInput = document.querySelector("input[type='file']");
   if (fileInput) {
     fileInput.value = null;
@@ -289,10 +293,43 @@ function resetSelectedFile() {
   }
   if (modalAddLogo && btnAdd && btnAddLimit) {
     modalAddLogo.style.display = "block";
-    btnAdd.style.display = "block";
+    btnAdd.style.display = "flex";
     btnAddLimit.style.display = "block";
   }
+
+  // Réinitialiser les champs du titre et de la catégorie
+  const titleInput = document.getElementById("title");
+  const categorySelect = document.getElementById("image-category");
+  if (titleInput && categorySelect) {
+    titleInput.value = "";
+    categorySelect.value = "";
+  }
 }
+
+//Prévisualiser l'image sélectionnée
+function previewImage(event) {
+const imageInput = document.getElementById("image");
+imageInput.addEventListener("change", (event) => {
+  const selectedFile = event.target.files[0];
+  const previewImage = document.querySelector(".preview-image");
+
+  if (selectedFile) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      previewImage.src = reader.result;
+      previewImage.style.display = "block";
+      modalAddLogo.style.display = "none";
+      btnAdd.style.display = "none";
+      btnAddLimit.style.display = "none";
+    };
+    reader.readAsDataURL(selectedFile);
+  } else {
+    previewImage.src = "";
+    previewImage.style.display = "none";
+  }
+});
+}
+
 
 displayWorks();
 displayCategories();
@@ -300,12 +337,6 @@ displayEdit();
 displayModal();
 logoutRefresh();
 modalAddImage();
+previewImage();
 closeModal();
 resetModal();
-
-window.addEventListener("popstate", () => {
-  modal.style.visibility = "hidden";
-  modalWrapper.style.display = "flex";
-  modalWrapperAdd.style.display = "none";
-  resetSelectedFile(); // Appel de la fonction resetSelectedFile()
-});

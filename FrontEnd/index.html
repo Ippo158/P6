@@ -32,27 +32,52 @@
         <i class="fa-solid fa-arrow-left-long"></i>
         <h2 class="modal-title">Ajout photo</h2>
         <i class="fa-solid fa-xmark fa-2xl close-button"></i>
-        <div class="modal-add-image">
-          <img src="assets/icons/picture-svgrepo-com 1.svg" class="modal-add-logo" alt="" />
-          <img src="" class="preview-image" alt="">
-          <button class="btn-add">+ Ajouter photo</button>
-          <div class="btn-add-limit">jpg, png : 4mo max</div>
-        </div>
+
         <form class="modal-form">
-          <label for="title" class="modal-label">Titre</label>
-          <input type="text" class="modal-input" id="title" name="title" />
-          <label for="category" class="modal-label">Catégorie</label>
-          <select id="image-category" class="modal-input" name="image-category">
-            <option disabled selected value="">
-              Veuillez choisir une catégorie
-            </option>
-            <option value="option1">Objets</option>
-            <option value="option2">Appartements</option>
-            <option value="option3">Hôtels & restaurants</option>
-          </select>
+          <div class="modal-add-image">
+            <img
+              src="assets/icons/picture-svgrepo-com 1.svg"
+              class="modal-add-logo"
+              alt=""
+            />
+
+
+            <!-- <button class="btn-add">+ Ajouter photo</button> -->
+            <label for="image" class="btn-add">+ Ajouter photo</label>
+
+            <input type="file" accept="image/*" id="image" class="btn-add" style="display: none;"></input>            
+
+            <div class="preview-container">
+            <img src="" class="preview-image" alt="" />
+            </div>
+            <div class="btn-add-limit">jpg, png : 4mo max</div>
+          </div>
+
+          <div class="modal-options">
+
+            
+            <label for="title" class="modal-label">Titre</label>
+            <input type="text" class="modal-input" id="title" name="title" />
+
+            <label for="category" class="modal-label">Catégorie</label>
+            <select
+              id="image-category"
+              class="modal-input"
+              name="image-category"
+            >
+              <option disabled selected value="">
+                Veuillez choisir une catégorie
+              </option>
+              <option value="option1">Objets</option>
+              <option value="option2">Appartements</option>
+              <option value="option3">Hôtels & restaurants</option>
+            </select>
+          </div>
+          <hr class="modal-hr" />
+          <button type="submit" class="modal-button-add send-form gray-btn">
+            Valider
+          </button>
         </form>
-        <hr class="modal-hr" />
-        <button class="modal-button-add gray-btn">Valider</button>
       </div>
     </aside>
 

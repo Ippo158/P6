@@ -273,6 +273,13 @@ li:hover {
   border-radius: 10px;
 }
 
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .preview-image {
   display: none;
   height: 169px;
@@ -402,7 +409,7 @@ li:hover {
   margin-top: 7px;
 }
 
-.modal-form {
+.modal-options {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -438,8 +445,8 @@ li:hover {
   cursor: pointer;
 }
 
-.gray-btn { 
-background-color: #a7a7a7; 
+.gray-btn {
+  background-color: #a7a7a7;
 }
 
 .modal-delete-gallery {
