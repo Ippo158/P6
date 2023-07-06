@@ -41,6 +41,9 @@ function displayWorks() {
 
         work.setAttribute("data-category", item.category.name);
 
+        // Création du contenu du work
+        work.setAttribute("data-work-id", item.id); // Ajouter l'ID du work
+
         // Cloner le travail et l'ajouter à la div "modal-images"
         const workClone = work.cloneNode(true);
         modalImages.appendChild(workClone);
@@ -188,7 +191,7 @@ function displayModal() {
 //Reset modale
 function resetBackModal() {
   const arrowBack = document.querySelector(".fa-arrow-left-long");
-  
+
   arrowBack.addEventListener("click", () => {
     modalWrapper.style.display = "flex";
     modalWrapperAdd.style.display = "none";
@@ -274,7 +277,6 @@ function modalAddImage() {
   });
 }
 
-
 //Prévisualiser l'image sélectionnée
 function previewImage(event) {
   const imageInput = document.getElementById("image");
@@ -299,64 +301,82 @@ function previewImage(event) {
   });
 }
 
-const form = document.querySelector(".modal-form");
-console.log(form);
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-  console.log(formData);
-  const token = localStorage.getItem("token");
-
-  fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Réponse du serveur :", data);
-    })
-    .catch((error) => {
-      console.error("Erreur lors de l'envoi des données :", error);
-    });
-});
-
-// const form = document.querySelector(".modal-form");
-// form.addEventListener("submit", formPost);
-
-// async function formPost(e) {
-//   e.preventDefault();
-
-//   const formData = new FormData(form);
-//   // const image = formData.get("image");
-//   // const title = formData.get("title");
-//   // const category = formData.get("category");
-//   const values = [...formData.entries()];
-//   console.log(values);
-// }
-
 // const form = document.querySelector(".modal-form");
 
 // form.addEventListener("submit", (e) => {
 //   e.preventDefault();
-//   const fd = new FormData(form);
-//   console.log(fd);
 
-//   for (item of fd) {
-//     console.log(item);
-//   }
+//   const formData = new FormData(form);
+//   console.log(formData);
+//   const token = localStorage.getItem("token");
 
-//   const obj = Object.fromEntries(fd);
-//   console.log(obj);
+//   fetch("http://localhost:5678/api/works", {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: formData,
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log("Réponse du serveur :", data);
+//       // resetBackModal();
+//     })
+//     .catch((error) => {
+//       console.error("Erreur lors de l'envoi des données :", error);
+//     });
+// });
 
-//   const json = JSON.stringify(obj);
-//   localStorage.setItem("form", json);
-//   console.log(json);
-// })
+
+const form = document.querySelector(".modal-form");
+const inputFile = document.getElementById("image");
+const inputName = document.getElementById("title");
+const selectCategory = document.getElementById("category");
+const submitButton = document.querySelector(".modal-button-add");
+
+// Fonction pour vérifier si les champs sont tous complétés
+function checkFormValidity() {
+  const isInputFileValid = inputFile.files.length > 0;
+  const isInputNameValid = inputName.value.trim() !== "";
+  const isSelectCategoryValid = selectCategory.value !== "";
+
+  return isInputFileValid && isInputNameValid && isSelectCategoryValid;
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if (checkFormValidity()) {
+    const formData = new FormData(form);
+    console.log(formData);
+    const token = localStorage.getItem("token");
+
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Réponse du serveur :", data);
+        resetInputModal();
+        alert("Le formulaire a été envoyé avec succès !");
+
+      })
+      .catch((error) => {
+        console.error("Erreur lors de l'envoi des données :", error);
+      });
+  } else {
+    // Afficher un message d'erreur
+    console.log("Veuillez remplir tous les champs !");
+    alert("Veuillez remplir tous les champs !");
+  }
+});
+
+
+
 
 displayWorks();
 displayCategories();

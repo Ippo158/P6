@@ -453,6 +453,10 @@ li:hover {
   background-color: #a7a7a7;
 }
 
+.green-btn {
+  background-color: #1d6154;
+}
+
 .modal-delete-gallery {
   width: 230px;
   height: 17px;
