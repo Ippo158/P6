@@ -245,43 +245,16 @@ function logoutRefresh() {
 
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
-//   const previewImage = document.querySelector(".preview-image");
+  //   const previewImage = document.querySelector(".preview-image");
 
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
   });
-
-//   btnAdd.addEventListener("click", () => {
-//     // Ouvrir la fenêtre de sélection de fichier
-//     const fileInput = document.createElement("input");
-//     fileInput.type = "file";
-//     fileInput.accept = "image/*";
-//     fileInput.id = "image";
-
-//     fileInput.addEventListener("change", (event) => {
-//       const selectedFile = event.target.files[0];
-//       // console.log("Image sélectionnée :", selectedFile);
-
-//       // Afficher la prévisualisation de l'image
-//       const reader = new FileReader();
-//       reader.onload = () => {
-//         previewImage.src = reader.result;
-//         previewImage.style.display = "flex";
-//         modalAddLogo.style.display = "none";
-//         btnAdd.style.display = "none";
-//         btnAddLimit.style.display = "none";
-//       };
-//       reader.readAsDataURL(selectedFile);
-//     });
-
-//     fileInput.click();
-//   });
 }
 
 //Reset fichier img
 function resetSelectedFile() {
-  
   const previewImage = document.querySelector(".preview-image");
   const fileInput = document.querySelector("input[type='file']");
   if (fileInput) {
@@ -308,28 +281,87 @@ function resetSelectedFile() {
 
 //Prévisualiser l'image sélectionnée
 function previewImage(event) {
-const imageInput = document.getElementById("image");
-imageInput.addEventListener("change", (event) => {
-  const selectedFile = event.target.files[0];
-  const previewImage = document.querySelector(".preview-image");
+  const imageInput = document.getElementById("image");
+  imageInput.addEventListener("change", (event) => {
+    const selectedFile = event.target.files[0];
+    const previewImage = document.querySelector(".preview-image");
 
-  if (selectedFile) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      previewImage.src = reader.result;
-      previewImage.style.display = "block";
-      modalAddLogo.style.display = "none";
-      btnAdd.style.display = "none";
-      btnAddLimit.style.display = "none";
-    };
-    reader.readAsDataURL(selectedFile);
-  } else {
-    previewImage.src = "";
-    previewImage.style.display = "none";
-  }
-});
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        previewImage.src = reader.result;
+        previewImage.style.display = "block";
+        modalAddLogo.style.display = "none";
+        btnAdd.style.display = "none";
+        btnAddLimit.style.display = "none";
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      previewImage.src = "";
+      previewImage.style.display = "none";
+    }
+  });
 }
 
+const form = document.querySelector(".modal-form");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(form);
+  const token = localStorage.getItem("token");
+
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Réponse du serveur :", data);
+    })
+    .catch((error) => {
+      console.error("Erreur lors de l'envoi des données :", error);
+    });
+});
+
+// const form = document.querySelector(".modal-form");
+// form.addEventListener("submit", formPost);
+
+// async function formPost(e) {
+//   e.preventDefault();
+
+//   const formData = new FormData(form);
+//   // const image = formData.get("image");
+//   // const title = formData.get("title");
+//   // const category = formData.get("category");
+//   const values = [...formData.entries()];
+//   console.log(values);
+// }
+
+
+
+// const form = document.querySelector(".modal-form");
+
+// form.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const fd = new FormData(form);
+//   console.log(fd);
+
+//   for (item of fd) {
+//     console.log(item);
+//   }
+
+//   const obj = Object.fromEntries(fd);
+//   console.log(obj);
+
+//   const json = JSON.stringify(obj);
+//   localStorage.setItem("form", json);
+//   console.log(json);
+// })
 
 displayWorks();
 displayCategories();

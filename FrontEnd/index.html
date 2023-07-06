@@ -15,7 +15,7 @@
       crossorigin="anonymous"
     ></script>
     <meta name="description" content="" />
-    <link rel="stylesheet" href="../FrontEnd/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <aside id="modal1" class="modal">
@@ -41,11 +41,9 @@
               alt=""
             />
 
-
-            <!-- <button class="btn-add">+ Ajouter photo</button> -->
+            <!--Image-->
             <label for="image" class="btn-add">+ Ajouter photo</label>
-
-            <input type="file" accept="image/*" id="image" class="btn-add" style="display: none;"></input>            
+            <input type="file" name="image" accept="image/*" id="image"></input>            
 
             <div class="preview-container">
             <img src="" class="preview-image" alt="" />
@@ -55,15 +53,16 @@
 
           <div class="modal-options">
 
-            
+            <!--Titre-->
             <label for="title" class="modal-label">Titre</label>
             <input type="text" class="modal-input" id="title" name="title" />
 
-            <label for="category" class="modal-label">Catégorie</label>
+            <!--Catégorie-->
+            <label for="category" name="category" class="modal-label">Catégorie</label>
             <select
-              id="image-category"
+              id="category"
               class="modal-input"
-              name="image-category"
+              name="category"
             >
               <option disabled selected value="">
                 Veuillez choisir une catégorie
