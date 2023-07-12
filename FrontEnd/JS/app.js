@@ -9,6 +9,7 @@ const btnAddLimit = document.querySelector(".btn-add-limit");
 const btnAdd = document.querySelector(".btn-add");
 const modalAddLogo = document.querySelector(".modal-add-logo");
 const inputFile = document.getElementById("image");
+const submitButton = document.querySelector(".send-form");
 
 //Affichage des projets
 function displayWorks() {
@@ -213,7 +214,6 @@ function deleteWork(workId) {
           workElement.remove();
           alert("Le travail a été supprimé avec succès.");
         }
-        // closeModal();
       } else {
         // Erreur lors de la suppression
         console.error(
@@ -237,7 +237,7 @@ function resetBackModal() {
     modalWrapper.style.display = "flex";
     modalWrapperAdd.style.display = "none";
     resetInputModal();
-    handleCloseModal();
+    updateButtonState();
   });
 }
 
@@ -261,6 +261,8 @@ function resetInputModal() {
   modalAddLogo.style.display = "block";
   btnAdd.style.display = "flex";
   btnAddLimit.style.display = "block";
+
+  submitButton.style.backgroundColor = "#a7a7a7";
 }
 
 //Fermeture de la modale
@@ -274,7 +276,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
-      handleCloseModal();
+      updateButtonState();
     });
   });
 
@@ -285,7 +287,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
-      handleCloseModal();
+      updateButtonState();
     }
   });
 
@@ -296,7 +298,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
-      handleCloseModal();
+      updateButtonState();
     }
   });
 }
@@ -406,7 +408,6 @@ form.addEventListener("submit", (e) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Réponse du serveur :", data);
-        // Réinitialiser le formulaire et mettre à jour l'état du bouton
         resetInputModal();
         updateButtonState();
         alert("Le formulaire a été envoyé avec succès !");
@@ -423,8 +424,6 @@ form.addEventListener("submit", (e) => {
 const fileInput = document.getElementById("image");
 const titleInput = document.getElementById("title");
 const categoryInput = document.getElementById("category");
-let isFormSubmitted = false;
-let isModalClosed = false;
 
 fileInput.addEventListener("change", updateButtonState);
 titleInput.addEventListener("input", updateButtonState);
@@ -434,23 +433,10 @@ function updateButtonState() {
   const isFileValid = fileInput.files.length > 0;
   const isTitleValid = titleInput.value.trim() !== "";
   const isCategoryValid = categoryInput.value !== "";
-  const submitButton = document.querySelector(".send-form");
 
-  if (isFormSubmitted || isModalClosed) {
-    submitButton.style.backgroundColor = "#a7a7a7";
-    isFormSubmitted = false;
-    isModalClosed = false;
-  } else if (isFileValid && isTitleValid && isCategoryValid) {
+  if (isFileValid && isTitleValid && isCategoryValid) {
     submitButton.style.backgroundColor = "#1d6154";
-  } else {
-    submitButton.style.backgroundColor = "#a7a7a7";
   }
-}
-
-// Ajoute cette fonction pour indiquer que la modale a été fermée
-function handleCloseModal() {
-  isModalClosed = true;
-  updateButtonState();
 }
 
 displayWorks();
