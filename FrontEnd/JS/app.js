@@ -1,15 +1,5 @@
 const gallery = document.querySelector(".gallery");
-const modalImages = document.querySelector(".modal-images");
-const portfolioSection = document.getElementById("portfolio");
 const categoryContainer = document.createElement("div");
-const header = document.querySelector("header");
-// Création du bouton "Modifier" pour titleModifier
-const editIconTextTitle = createEditButton("Modifier");
-// Création du bouton "Modifier" pour imageModifier
-const editIconTextImage = createEditButton("Modifier");
-// Affichage des boutons "Modifier"
-const titleModifier = document.querySelector(".title-modifier");
-const imageModifier = document.querySelector("figcaption");
 const modal = document.querySelector(".modal");
 const loginStatus = document.getElementById("login");
 const token = localStorage.getItem("token");
@@ -18,12 +8,7 @@ const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
 const btnAddLimit = document.querySelector(".btn-add-limit");
 const btnAdd = document.querySelector(".btn-add");
 const modalAddLogo = document.querySelector(".modal-add-logo");
-const modalButtonAdd = document.querySelector(".modal-button-add");
-const form = document.querySelector(".modal-form");
 const inputFile = document.getElementById("image");
-const inputName = document.getElementById("title");
-const selectCategory = document.getElementById("category");
-const submitButton = document.querySelector(".modal-button-add");
 
 //Affichage des projets
 function displayWorks() {
@@ -50,6 +35,8 @@ function displayWorks() {
 
         // Cloner le travail et l'ajouter à la div "modal-images"
         const workClone = work.cloneNode(true);
+        const modalImages = document.querySelector(".modal-images");
+
         modalImages.appendChild(workClone);
         gallery.appendChild(work);
       });
@@ -72,6 +59,7 @@ function displayCategories() {
         categoryContainer.appendChild(categoryButton);
       });
 
+      const portfolioSection = document.getElementById("portfolio");
       portfolioSection.insertBefore(categoryContainer, gallery);
     });
 }
@@ -126,9 +114,15 @@ function displayEdit() {
     editBar.appendChild(button);
 
     // Affichage de la barre EDIT
+    const header = document.querySelector("header");
     header.parentNode.insertBefore(editBar, header);
 
     //Affichage des boutons MODIFIER
+    const editIconTextTitle = createEditButton("Modifier");
+    const editIconTextImage = createEditButton("Modifier");
+    const titleModifier = document.querySelector(".title-modifier");
+    const imageModifier = document.querySelector("figcaption");
+
     titleModifier.appendChild(editIconTextTitle);
     imageModifier.appendChild(editIconTextImage);
   } else {
@@ -243,6 +237,7 @@ function resetBackModal() {
     modalWrapper.style.display = "flex";
     modalWrapperAdd.style.display = "none";
     resetInputModal();
+    handleCloseModal();
   });
 }
 
@@ -279,6 +274,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
+      handleCloseModal();
     });
   });
 
@@ -289,6 +285,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
+      handleCloseModal();
     }
   });
 
@@ -299,6 +296,7 @@ function closeModal() {
       modalWrapper.style.display = "flex";
       modalWrapperAdd.style.display = "none";
       resetInputModal();
+      handleCloseModal();
     }
   });
 }
@@ -317,6 +315,7 @@ function logoutRefresh() {
 
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
+  const modalButtonAdd = document.querySelector(".modal-button-add");
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
@@ -349,6 +348,8 @@ function previewImage(event) {
 
 // Vérifier les conditions de validités
 function checkFormValidity() {
+  const inputName = document.getElementById("title");
+  const selectCategory = document.getElementById("category");
   const isInputFileValid = inputFile.files.length > 0;
   const isInputNameValid = inputName.value.trim() !== "";
   const isSelectCategoryValid = selectCategory.value !== "";
@@ -386,13 +387,14 @@ function checkFileType() {
 }
 
 //Soumission du formulaire
+const form = document.querySelector(".modal-form");
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   if (checkFormValidity()) {
     const formData = new FormData(form);
     console.log(formData);
-    const token = localStorage.getItem("token");
 
     fetch("http://localhost:5678/api/works", {
       method: "POST",
@@ -404,7 +406,9 @@ form.addEventListener("submit", (e) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Réponse du serveur :", data);
+        // Réinitialiser le formulaire et mettre à jour l'état du bouton
         resetInputModal();
+        updateButtonState();
         alert("Le formulaire a été envoyé avec succès !");
       })
       .catch((error) => {
@@ -415,6 +419,39 @@ form.addEventListener("submit", (e) => {
     alert("Veuillez remplir tous les champs !");
   }
 });
+
+const fileInput = document.getElementById("image");
+const titleInput = document.getElementById("title");
+const categoryInput = document.getElementById("category");
+let isFormSubmitted = false;
+let isModalClosed = false;
+
+fileInput.addEventListener("change", updateButtonState);
+titleInput.addEventListener("input", updateButtonState);
+categoryInput.addEventListener("change", updateButtonState);
+
+function updateButtonState() {
+  const isFileValid = fileInput.files.length > 0;
+  const isTitleValid = titleInput.value.trim() !== "";
+  const isCategoryValid = categoryInput.value !== "";
+  const submitButton = document.querySelector(".send-form");
+
+  if (isFormSubmitted || isModalClosed) {
+    submitButton.style.backgroundColor = "#a7a7a7";
+    isFormSubmitted = false;
+    isModalClosed = false;
+  } else if (isFileValid && isTitleValid && isCategoryValid) {
+    submitButton.style.backgroundColor = "#1d6154";
+  } else {
+    submitButton.style.backgroundColor = "#a7a7a7";
+  }
+}
+
+// Ajoute cette fonction pour indiquer que la modale a été fermée
+function handleCloseModal() {
+  isModalClosed = true;
+  updateButtonState();
+}
 
 displayWorks();
 displayCategories();
