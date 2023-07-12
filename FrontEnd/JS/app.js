@@ -10,6 +10,10 @@ const btnAdd = document.querySelector(".btn-add");
 const modalAddLogo = document.querySelector(".modal-add-logo");
 const inputFile = document.getElementById("image");
 const submitButton = document.querySelector(".send-form");
+const form = document.querySelector(".modal-form");
+const fileInput = document.getElementById("image");
+const titleInput = document.getElementById("title");
+const categoryInput = document.getElementById("category");
 
 //Affichage des projets
 function displayWorks() {
@@ -244,9 +248,6 @@ function resetBackModal() {
 //Reset modale
 function resetInputModal() {
   const previewImage = document.querySelector(".preview-image");
-  const fileInput = document.querySelector("input[type='file']");
-  const titleInput = document.querySelector("input[type='text']");
-  const categoryInput = document.querySelector("select");
 
   //Reset preview image
   previewImage.src = "";
@@ -389,8 +390,6 @@ function checkFileType() {
 }
 
 //Soumission du formulaire
-const form = document.querySelector(".modal-form");
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -408,6 +407,7 @@ form.addEventListener("submit", (e) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Réponse du serveur :", data);
+
         resetInputModal();
         updateButtonState();
         alert("Le formulaire a été envoyé avec succès !");
@@ -420,10 +420,6 @@ form.addEventListener("submit", (e) => {
     alert("Veuillez remplir tous les champs !");
   }
 });
-
-const fileInput = document.getElementById("image");
-const titleInput = document.getElementById("title");
-const categoryInput = document.getElementById("category");
 
 fileInput.addEventListener("change", updateButtonState);
 titleInput.addEventListener("input", updateButtonState);
