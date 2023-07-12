@@ -17,9 +17,13 @@ const modalWrapper = document.querySelector(".modal-wrapper");
 const modalWrapperAdd = document.querySelector(".modal-wrapper-add");
 const btnAddLimit = document.querySelector(".btn-add-limit");
 const btnAdd = document.querySelector(".btn-add");
-// const previewImage = document.querySelector(".preview-image");
 const modalAddLogo = document.querySelector(".modal-add-logo");
 const modalButtonAdd = document.querySelector(".modal-button-add");
+const form = document.querySelector(".modal-form");
+const inputFile = document.getElementById("image");
+const inputName = document.getElementById("title");
+const selectCategory = document.getElementById("category");
+const submitButton = document.querySelector(".modal-button-add");
 
 //Affichage des projets
 function displayWorks() {
@@ -99,6 +103,7 @@ function createCategoryButton(text) {
   return categoryButton;
 }
 
+//Affichage page en mode admin
 function displayEdit() {
   if (token) {
     console.log("Utilisateur authentifié");
@@ -175,6 +180,14 @@ function displayModal() {
             figure.insertBefore(arrowsIcon, figure.firstChild);
           }
         }
+
+        //Event listener sur trash can
+        const deleteIcon = figure.querySelector(".fa-trash-can");
+        deleteIcon.addEventListener("click", () => {
+          const workElement = deleteIcon.parentNode;
+          const workId = workElement.getAttribute("data-work-id");
+          deleteWork(workId);
+        });
       });
 
       const modalFigcaptions = document.querySelectorAll(
@@ -188,7 +201,41 @@ function displayModal() {
   });
 }
 
-//Reset modale
+// Fonction pour supprimer un travail
+function deleteWork(workId) {
+  fetch(`http://localhost:5678/api/works/${workId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Suppression réussie, mettre à jour l'interface
+        const workElement = document.querySelector(
+          `figure[data-work-id="${workId}"]`
+        );
+        if (workElement) {
+          workElement.remove();
+          alert("Le travail a été supprimé avec succès.");
+        }
+        // closeModal();
+      } else {
+        // Erreur lors de la suppression
+        console.error(
+          "Une erreur s'est produite lors de la suppression du travail."
+        );
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "Une erreur s'est produite lors de la suppression du travail :",
+        error
+      );
+    });
+}
+
+//Retour arrière modale
 function resetBackModal() {
   const arrowBack = document.querySelector(".fa-arrow-left-long");
 
@@ -199,6 +246,7 @@ function resetBackModal() {
   });
 }
 
+//Reset modale
 function resetInputModal() {
   const previewImage = document.querySelector(".preview-image");
   const fileInput = document.querySelector("input[type='file']");
@@ -255,7 +303,7 @@ function closeModal() {
   });
 }
 
-//Déconnexion par lien logout
+//Déconnexion par logout
 function logoutRefresh() {
   loginStatus.addEventListener("click", (event) => {
     if (token) {
@@ -269,8 +317,6 @@ function logoutRefresh() {
 
 //Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
-  //   const previewImage = document.querySelector(".preview-image");
-
   modalButtonAdd.addEventListener("click", () => {
     modalWrapper.style.display = "none";
     modalWrapperAdd.style.display = "flex";
@@ -301,48 +347,45 @@ function previewImage(event) {
   });
 }
 
-// const form = document.querySelector(".modal-form");
-
-// form.addEventListener("submit", (e) => {
-//   e.preventDefault();
-
-//   const formData = new FormData(form);
-//   console.log(formData);
-//   const token = localStorage.getItem("token");
-
-//   fetch("http://localhost:5678/api/works", {
-//     method: "POST",
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: formData,
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       console.log("Réponse du serveur :", data);
-//       // resetBackModal();
-//     })
-//     .catch((error) => {
-//       console.error("Erreur lors de l'envoi des données :", error);
-//     });
-// });
-
-
-const form = document.querySelector(".modal-form");
-const inputFile = document.getElementById("image");
-const inputName = document.getElementById("title");
-const selectCategory = document.getElementById("category");
-const submitButton = document.querySelector(".modal-button-add");
-
-// Fonction pour vérifier si les champs sont tous complétés
+// Vérifier les conditions de validités
 function checkFormValidity() {
   const isInputFileValid = inputFile.files.length > 0;
   const isInputNameValid = inputName.value.trim() !== "";
   const isSelectCategoryValid = selectCategory.value !== "";
+  const isFileValid = isInputFileValid && checkFileSize() && checkFileType();
 
-  return isInputFileValid && isInputNameValid && isSelectCategoryValid;
+  return isFileValid && isInputNameValid && isSelectCategoryValid;
 }
 
+//Limite 4Mo
+function checkFileSize() {
+  const maxFileSize = 4 * 1024 * 1024; // 4MB
+  const selectedFile = inputFile.files[0];
+
+  if (selectedFile && selectedFile.size > maxFileSize) {
+    alert("La taille du fichier dépasse la limite autorisée (4Mo maximum).");
+    resetInputModal();
+    return false;
+  }
+
+  return true;
+}
+
+//Fichier jpeg et png
+function checkFileType() {
+  const allowedTypes = ["image/jpeg", "image/png"];
+  const selectedFile = inputFile.files[0];
+
+  if (selectedFile && !allowedTypes.includes(selectedFile.type)) {
+    alert("Seuls les fichiers de type JPEG et PNG sont acceptés.");
+    resetInputModal();
+    return false;
+  }
+
+  return true;
+}
+
+//Soumission du formulaire
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -363,20 +406,15 @@ form.addEventListener("submit", (e) => {
         console.log("Réponse du serveur :", data);
         resetInputModal();
         alert("Le formulaire a été envoyé avec succès !");
-
       })
       .catch((error) => {
         console.error("Erreur lors de l'envoi des données :", error);
       });
   } else {
-    // Afficher un message d'erreur
     console.log("Veuillez remplir tous les champs !");
     alert("Veuillez remplir tous les champs !");
   }
 });
-
-
-
 
 displayWorks();
 displayCategories();
