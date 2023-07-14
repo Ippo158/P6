@@ -15,58 +15,70 @@ const fileInput = document.getElementById("image");
 const titleInput = document.getElementById("title");
 const categoryInput = document.getElementById("category");
 
-//Affichage des projets
+//Affichage des works
 function displayWorks() {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
+
       data.forEach((item) => {
-        const work = document.createElement("figure");
+        const existingWork = document.querySelector(
+          `figure[data-work-id="${item.id}"]`
+        );
+        if (!existingWork) {
+          const work = createWorkElement(item);
 
-        const workImage = document.createElement("img");
-        workImage.src = item.imageUrl;
-        workImage.alt = item.title;
-        work.appendChild(workImage);
+          gallery.appendChild(work);
 
-        const workCaption = document.createElement("figcaption");
-        workCaption.innerHTML = item.title;
-        work.appendChild(workCaption);
-
-        work.setAttribute("data-category", item.category.name);
-
-        // Création du contenu du work
-        work.setAttribute("data-work-id", item.id); // Ajouter l'ID du work
-
-        // Cloner le travail et l'ajouter à la div "modal-images"
-        const workClone = work.cloneNode(true);
-        const modalImages = document.querySelector(".modal-images");
-
-        modalImages.appendChild(workClone);
-        gallery.appendChild(work);
+          const modalWork = createWorkElement(item);
+          const modalImages = document.querySelector(".modal-images");
+          modalImages.appendChild(modalWork);
+        }
       });
     });
 }
 
+//Création de work
+function createWorkElement(item) {
+  const work = document.createElement("figure");
+
+  const workImage = document.createElement("img");
+  workImage.src = item.imageUrl;
+  workImage.alt = item.title;
+  work.appendChild(workImage);
+
+  const workCaption = document.createElement("figcaption");
+  workCaption.innerHTML = item.title;
+  work.appendChild(workCaption);
+
+  work.setAttribute("data-category", item.category.name);
+  work.setAttribute("data-work-id", item.id);
+
+  return work;
+}
+
 //Affichage des catégories
 function displayCategories() {
-  fetch("http://localhost:5678/api/categories")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
+  if (!token) {
+    fetch("http://localhost:5678/api/categories")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
 
-      const allButton = createCategoryButton("Tous");
-      allButton.classList.add("active");
-      categoryContainer.appendChild(allButton);
+        const allButton = createCategoryButton("Tous");
+        allButton.classList.add("active");
+        categoryContainer.appendChild(allButton);
 
-      data.forEach((category) => {
-        const categoryButton = createCategoryButton(category.name);
-        categoryContainer.appendChild(categoryButton);
+        data.forEach((category) => {
+          const categoryButton = createCategoryButton(category.name);
+          categoryContainer.appendChild(categoryButton);
+        });
+
+        const portfolioSection = document.getElementById("portfolio");
+        portfolioSection.insertBefore(categoryContainer, gallery);
       });
-
-      const portfolioSection = document.getElementById("portfolio");
-      portfolioSection.insertBefore(categoryContainer, gallery);
-    });
+  }
 }
 
 //Filtrer les catégories
@@ -200,7 +212,6 @@ function displayModal() {
   });
 }
 
-// Fonction pour supprimer un travail
 function deleteWork(workId) {
   fetch(`http://localhost:5678/api/works/${workId}`, {
     method: "DELETE",
@@ -216,7 +227,14 @@ function deleteWork(workId) {
         );
         if (workElement) {
           workElement.remove();
-          alert("Le travail a été supprimé avec succès.");
+        }
+
+        // Vérifier si c'est le dernier projet et le supprimer si c'est le cas
+        const lastWorkElement = document.querySelector(
+          ".gallery figure:last-child"
+        );
+        if (lastWorkElement && lastWorkElement.dataset.workId === workId) {
+          lastWorkElement.remove();
         }
       } else {
         // Erreur lors de la suppression
@@ -302,6 +320,12 @@ function closeModal() {
       updateButtonState();
     }
   });
+}
+
+function closeModalAfterSubmit() {
+  modal.style.visibility = "hidden";
+  modalWrapper.style.display = "flex";
+  modalWrapperAdd.style.display = "none";
 }
 
 //Déconnexion par logout
@@ -407,16 +431,16 @@ form.addEventListener("submit", (e) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Réponse du serveur :", data);
-
+        closeModalAfterSubmit();
         resetInputModal();
         updateButtonState();
+        displayWorks();
         alert("Le formulaire a été envoyé avec succès !");
       })
       .catch((error) => {
         console.error("Erreur lors de l'envoi des données :", error);
       });
   } else {
-    console.log("Veuillez remplir tous les champs !");
     alert("Veuillez remplir tous les champs !");
   }
 });
