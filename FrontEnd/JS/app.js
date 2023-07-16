@@ -1,3 +1,4 @@
+// Sélection des éléements DOM
 const gallery = document.querySelector(".gallery");
 const categoryContainer = document.createElement("div");
 const modal = document.querySelector(".modal");
@@ -15,7 +16,7 @@ const fileInput = document.getElementById("image");
 const titleInput = document.getElementById("title");
 const categoryInput = document.getElementById("category");
 
-//Affichage des works
+// Affichage des works
 function displayWorks() {
   fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
@@ -39,7 +40,7 @@ function displayWorks() {
     });
 }
 
-//Création de work
+// Création d'un élément work
 function createWorkElement(item) {
   const work = document.createElement("figure");
 
@@ -58,7 +59,7 @@ function createWorkElement(item) {
   return work;
 }
 
-//Affichage des catégories
+// Affichage des catégories
 function displayCategories() {
   if (!token) {
     fetch("http://localhost:5678/api/categories")
@@ -81,7 +82,7 @@ function displayCategories() {
   }
 }
 
-//Filtrer les catégories
+// Filtrer les catégories
 function createCategoryButton(text) {
   const categoryButton = document.createElement("button");
   categoryButton.textContent = text;
@@ -108,13 +109,13 @@ function createCategoryButton(text) {
   return categoryButton;
 }
 
-//Affichage page en mode admin
+// Affichage page en mode admin
 function displayEdit() {
   if (token) {
     console.log("Utilisateur authentifié");
     loginStatus.innerHTML = "logout";
 
-    //Création EDITBAR
+    // Création EDITBAR
     const editBar = document.createElement("div");
     editBar.classList.add("edit-bar");
     const icon = document.createElement("i");
@@ -134,7 +135,7 @@ function displayEdit() {
     const header = document.querySelector("header");
     header.parentNode.insertBefore(editBar, header);
 
-    //Affichage des boutons MODIFIER
+    // Affichage des boutons MODIFIER
     const editIconTextTitle = createEditButton("Modifier");
     const editIconTextImage = createEditButton("Modifier");
     const titleModifier = document.querySelector(".title-modifier");
@@ -147,6 +148,7 @@ function displayEdit() {
   }
 }
 
+// Création d'un bouton de modification
 function createEditButton(text) {
   const editIconText = document.createElement("div");
   editIconText.classList.add("edit-button");
@@ -164,6 +166,7 @@ function createEditButton(text) {
   return editIconText;
 }
 
+// Affichage de la modale
 function displayModal() {
   const editButtons = document.querySelectorAll(".edit-button");
 
@@ -192,7 +195,7 @@ function displayModal() {
           }
         }
 
-        //Event listener sur trash can
+        // Event listener sur trash can
         const deleteIcon = figure.querySelector(".fa-trash-can");
         deleteIcon.addEventListener("click", () => {
           const workElement = deleteIcon.parentNode;
@@ -212,6 +215,7 @@ function displayModal() {
   });
 }
 
+// Suppression d'un work
 function deleteWork(workId) {
   fetch(`http://localhost:5678/api/works/${workId}`, {
     method: "DELETE",
@@ -251,7 +255,7 @@ function deleteWork(workId) {
     });
 }
 
-//Retour arrière modale
+// Retour à la modale précédente
 function resetBackModal() {
   const arrowBack = document.querySelector(".fa-arrow-left-long");
 
@@ -263,7 +267,7 @@ function resetBackModal() {
   });
 }
 
-//Reset modale
+// Reset modale
 function resetInputModal() {
   const previewImage = document.querySelector(".preview-image");
 
@@ -284,11 +288,11 @@ function resetInputModal() {
   submitButton.style.backgroundColor = "#a7a7a7";
 }
 
-//Fermeture de la modale
+// Fermeture de la modale
 function closeModal() {
   const closeModalButton = document.querySelectorAll(".close-button");
 
-  //Au clic sur la croix
+  // Au clic sur la croix
   closeModalButton.forEach((closeButton) => {
     closeButton.addEventListener("click", () => {
       modal.style.visibility = "hidden";
@@ -299,7 +303,7 @@ function closeModal() {
     });
   });
 
-  //Au clic à l'extérieur de la modale
+  // Au clic à l'extérieur de la modale
   modal.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.visibility = "hidden";
@@ -310,7 +314,7 @@ function closeModal() {
     }
   });
 
-  //Avec Echap
+  // Avec Echap
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       modal.style.visibility = "hidden";
@@ -322,13 +326,14 @@ function closeModal() {
   });
 }
 
+// Fermeture de la modale après soumission du formulaire
 function closeModalAfterSubmit() {
   modal.style.visibility = "hidden";
   modalWrapper.style.display = "flex";
   modalWrapperAdd.style.display = "none";
 }
 
-//Déconnexion par logout
+// Déconnexion par logout
 function logoutRefresh() {
   loginStatus.addEventListener("click", (event) => {
     if (token) {
@@ -340,7 +345,7 @@ function logoutRefresh() {
   });
 }
 
-//Affichage de la modale pour AJOUTER une photo
+// Affichage de la modale pour AJOUTER une photo
 function modalAddImage() {
   const modalButtonAdd = document.querySelector(".modal-button-add");
   modalButtonAdd.addEventListener("click", () => {
@@ -349,7 +354,7 @@ function modalAddImage() {
   });
 }
 
-//Prévisualiser l'image sélectionnée
+// Prévisualiser l'image sélectionnée
 function previewImage(event) {
   const imageInput = document.getElementById("image");
   imageInput.addEventListener("change", (event) => {
@@ -373,7 +378,7 @@ function previewImage(event) {
   });
 }
 
-// Vérifier les conditions de validités
+// Vérifier les conditions de validités du formulaire
 function checkFormValidity() {
   const inputName = document.getElementById("title");
   const selectCategory = document.getElementById("category");
@@ -385,7 +390,7 @@ function checkFormValidity() {
   return isFileValid && isInputNameValid && isSelectCategoryValid;
 }
 
-//Limite 4Mo
+// Limite de taille de fichier : 4 Mo
 function checkFileSize() {
   const maxFileSize = 4 * 1024 * 1024; // 4MB
   const selectedFile = inputFile.files[0];
@@ -399,7 +404,7 @@ function checkFileSize() {
   return true;
 }
 
-//Fichier jpeg et png
+// Types de fichiers acceptés : JPEG et PNG
 function checkFileType() {
   const allowedTypes = ["image/jpeg", "image/png"];
   const selectedFile = inputFile.files[0];
@@ -413,7 +418,7 @@ function checkFileType() {
   return true;
 }
 
-//Soumission du formulaire
+// Soumission du formulaire
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -449,6 +454,7 @@ fileInput.addEventListener("change", updateButtonState);
 titleInput.addEventListener("input", updateButtonState);
 categoryInput.addEventListener("change", updateButtonState);
 
+// Mise à jour de l'état du bouton de soumission
 function updateButtonState() {
   const isFileValid = fileInput.files.length > 0;
   const isTitleValid = titleInput.value.trim() !== "";
