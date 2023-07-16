@@ -419,50 +419,53 @@ function checkFileType() {
 }
 
 // Soumission du formulaire
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+function handleSubmit() {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  if (checkFormValidity()) {
-    const formData = new FormData(form);
-    console.log(formData);
+    if (checkFormValidity()) {
+      const formData = new FormData(form);
 
-    fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Réponse du serveur :", data);
-        closeModalAfterSubmit();
-        resetInputModal();
-        updateButtonState();
-        displayWorks();
-        alert("Le formulaire a été envoyé avec succès !");
+      fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
       })
-      .catch((error) => {
-        console.error("Erreur lors de l'envoi des données :", error);
-      });
-  } else {
-    alert("Veuillez remplir tous les champs !");
-  }
-});
-
-fileInput.addEventListener("change", updateButtonState);
-titleInput.addEventListener("input", updateButtonState);
-categoryInput.addEventListener("change", updateButtonState);
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Réponse du serveur :", data);
+          closeModalAfterSubmit();
+          resetInputModal();
+          updateButtonState();
+          displayWorks();
+          alert("Le formulaire a été envoyé avec succès !");
+        })
+        .catch((error) => {
+          console.error("Erreur lors de l'envoi des données :", error);
+        });
+    } else {
+      alert("Veuillez remplir tous les champs !");
+    }
+  });
+}
 
 // Mise à jour de l'état du bouton de soumission
 function updateButtonState() {
-  const isFileValid = fileInput.files.length > 0;
-  const isTitleValid = titleInput.value.trim() !== "";
-  const isCategoryValid = categoryInput.value !== "";
+  const ButtonState = () => {
+    const isFileValid = fileInput.files.length > 0;
+    const isTitleValid = titleInput.value.trim() !== "";
+    const isCategoryValid = categoryInput.value !== "";
 
-  if (isFileValid && isTitleValid && isCategoryValid) {
-    submitButton.style.backgroundColor = "#1d6154";
-  }
+    if (isFileValid && isTitleValid && isCategoryValid) {
+      submitButton.style.backgroundColor = "#1d6154";
+    }
+  };
+
+  fileInput.addEventListener("change", ButtonState);
+  titleInput.addEventListener("input", ButtonState);
+  categoryInput.addEventListener("change", ButtonState);
 }
 
 displayWorks();
@@ -474,3 +477,5 @@ modalAddImage();
 previewImage();
 closeModal();
 resetBackModal();
+handleSubmit();
+updateButtonState();

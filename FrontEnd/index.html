@@ -36,34 +36,34 @@
         <form class="modal-form">
           <div class="modal-add-image">
             <img
-              src="assets/icons/picture-svgrepo-com 1.svg"
+              src="assets/icons/picture-svgrepo-com1.svg"
               class="modal-add-logo"
               alt=""
             />
 
             <!--Image-->
             <label for="image" class="btn-add">+ Ajouter photo</label>
-            <input type="file" name="image" accept="image/png, image/jpeg" id="image"></input>            
+            <input
+              type="file"
+              name="image"
+              accept="image/png, image/jpeg"
+              id="image"
+            />
 
             <div class="preview-container">
-            <img src="" class="preview-image" alt="" />
+              <img src="#" class="preview-image" alt="" />
             </div>
             <div class="btn-add-limit">jpg, png : 4mo max</div>
           </div>
 
           <div class="modal-options">
-
             <!--Titre-->
             <label for="title" class="modal-label">Titre</label>
             <input type="text" class="modal-input" id="title" name="title" />
 
             <!--Catégorie-->
-            <label for="category" name="category" class="modal-label">Catégorie</label>
-            <select
-              id="category"
-              class="modal-input"
-              name="category"
-            >
+            <label for="category" class="modal-label">Catégorie</label>
+            <select id="category" class="modal-input" name="category">
               <option disabled selected value="">
                 Veuillez choisir une catégorie
               </option>
